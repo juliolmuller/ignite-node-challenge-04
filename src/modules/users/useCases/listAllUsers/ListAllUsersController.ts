@@ -10,9 +10,14 @@ class ListAllUsersController {
     const [user_id = ""] = Array.isArray(userIdHeader)
       ? userIdHeader
       : [userIdHeader];
-    const users = this.listAllUsersUseCase.execute({ user_id });
 
-    return response.json(users);
+    try {
+      const users = this.listAllUsersUseCase.execute({ user_id });
+
+      return response.json(users);
+    } catch (error) {
+      return response.status(400).json({ error: error.message });
+    }
   }
 }
 
